@@ -2,7 +2,7 @@ module Stack exposing (main)
 
 import Browser
 import Html exposing (Html, button, div, text)
-import Html.Attributes exposing (disabled)
+import Html.Attributes exposing (class, disabled)
 import Html.Events exposing (onClick)
 
 
@@ -115,7 +115,7 @@ view model =
     in
     div []
         [ viewStackText emptyStack
-        , viewStack model.stack
+        , div [ class "stack" ] <| viewStack model.stack
         , div [] [ text "Head: ", viewHead model.head ]
         , button [ onClick <| ClickedCons model.index ] [ text "Cons" ]
         , button [ disabled emptyStack, onClick ClickedHead ] [ text "Head" ]
@@ -143,14 +143,14 @@ viewHead hd =
             text <| String.fromInt a
 
 
-viewStack : Stack Int -> Html Msg
+viewStack : Stack Int -> List (Html Msg)
 viewStack stack =
     case stack of
         Nil ->
-            div [] []
+            [ text "" ]
 
         Cons hd tl ->
-            div [] [ text <| String.fromInt hd, viewStack tl ]
+            [ div [ class "cons" ] [ text <| String.fromInt hd ] ] ++ viewStack tl
 
 
 
